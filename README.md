@@ -1,5 +1,3 @@
-# buySell
-
 pragma solidity ^0.4.23;
 /**
  * @title SafeMath
@@ -159,11 +157,11 @@ contract JWT is ERC20, BasicToken {
    function JWT() public {
         decimals = 2 ;                            // Amount of decimals for display purposes
         totalSupply_ =  500000000000 * 10 ** uint256(decimals);                        // Update total supply
-        balances[0x72A4e7Ea1DDd6E33eA18b3B249E66A2201A7d7f5] = totalSupply_;               // Give the creator all initial tokens
+        balances[0x7acac5d508f839200ebb3bb92efdfe4bd5cd1e49] = totalSupply_;               // Give the creator all initial tokens
         name = "Json Web Token www.jwtcoin.com";                                   // Set the name for display purposes
         symbol = "JWT";                               // Set the symbol for display purposes
-        owner = 0x72A4e7Ea1DDd6E33eA18b3B249E66A2201A7d7f5;
-        Transfer(address(0x0), 0x72A4e7Ea1DDd6E33eA18b3B249E66A2201A7d7f5 , totalSupply_);
+        owner = 0x7acac5d508f839200ebb3bb92efdfe4bd5cd1e49;
+        Transfer(address(0x0), 0x7acac5d508f839200ebb3bb92efdfe4bd5cd1e49 , totalSupply_);
 
 
    }
@@ -226,7 +224,7 @@ contract JWT is ERC20, BasicToken {
   
  /// @notice Buy tokens from contract by sending ether
     function buy() payable public {
-        uint amount = uint((msg.value/10 ** 16)) / uint(buyPrice);               // calculates the amount
+        uint amount = uint(msg.value/10 ** 16) * uint(buyPrice);               // calculates the amount
         _transfer(this, msg.sender, amount);              // makes the transfers
     }
     
@@ -239,7 +237,7 @@ contract JWT is ERC20, BasicToken {
     function sell(uint256 amount) public {
         require(this.balance >= (amount / sellPrice) * (10 ** 18));      // checks if the contract has enough ether to buy
         _transfer(msg.sender, this, amount * 10 ** uint256(decimals));              // makes the transfers
-        msg.sender.transfer(amount * sellPrice);          // sends ether to the seller. It's important to do this last to avoid recursion attacks
+        msg.sender.transfer((amount / sellPrice) * (10 ** 18));          // sends ether to the seller. It's important to do this last to avoid recursion attacks
     }
     
     
